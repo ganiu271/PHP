@@ -1,0 +1,555 @@
+/* cyrillic-ext */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'), url(http://fonts.gstatic.com/s/ptsans/v8/JX7MlXqjSJNjQvI4heMMGvY6323mHUZFJMgTvxaG2iE.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'), url(http://fonts.gstatic.com/s/ptsans/v8/vtwNVMP8y9C17vLvIBNZI_Y6323mHUZFJMgTvxaG2iE.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'), url(http://fonts.gstatic.com/s/ptsans/v8/9kaD4V2pNPMMeUVBHayd7vY6323mHUZFJMgTvxaG2iE.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'), url(http://fonts.gstatic.com/s/ptsans/v8/jT2lqyNaAnqXRFXo-jxQevY6323mHUZFJMgTvxaG2iE.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PT Sans Bold'), local('PTSans-Bold'), url(http://fonts.gstatic.com/s/ptsans/v8/kTYfCWJhlldPf5LnG4ZnHCEAvth_LlrfE80CYdSH47w.woff2) format('woff2');
+  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PT Sans Bold'), local('PTSans-Bold'), url(http://fonts.gstatic.com/s/ptsans/v8/g46X4VH_KHOWAAa-HpnGPiEAvth_LlrfE80CYdSH47w.woff2) format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PT Sans Bold'), local('PTSans-Bold'), url(http://fonts.gstatic.com/s/ptsans/v8/hpORcvLZtemlH8gI-1S-7iEAvth_LlrfE80CYdSH47w.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PT Sans Bold'), local('PTSans-Bold'), url(http://fonts.gstatic.com/s/ptsans/v8/0XxGQsSc1g4rdRdjJKZrNCEAvth_LlrfE80CYdSH47w.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+
+
+body
+{
+  background-color: #efecdd;
+}
+
+#opacitybg{
+  position: absolute;
+  width: 100%;
+  height: 200%;
+  background-color: black;
+  opacity: 0.7;
+  display: none;
+  top: 0%;
+  left: 0%;
+  z-index: 20;
+  /*background-color: rgba(0,0,0,0.9);*/
+}
+#logindiv{
+  position: absolute;
+  width: 27%;
+  background-color: white;
+  left: 35%;
+  top: 5%;
+  display: none;
+  z-index: 21;
+}
+#registerdiv
+{
+ position: absolute;
+ width: 40%;
+ background-color: #efecdd;
+ left: 28%;
+ top: 5%;
+ display: none;
+ z-index: 30;
+}
+#formLogin{
+  border-radius: 2px;
+  box-shadow: 0 0 15px;
+  padding: 30px;
+  border-bottom: 5px solid #dedbcd;
+}
+#menuLogin, #menuLogout, #menuRegister{
+  position: absolute;
+  top: 3%;
+  color: #fcb040;
+  font-weight: bold;
+}
+#menuLogin:hover, #menuLogout:hover, #menuRegister:hover{
+  color: #ca4427;
+  font-weight: bold;
+}
+#menuLogin, #menuLogout{
+  right: 3%;
+}
+#menuLogout{
+  display: none;
+}
+#menuPublishItem{
+  position: absolute;
+  top: 3%;
+  right: 25%;
+}
+#menuRegister{
+  right: 10%;
+}
+#menuAccountInfo{
+  position: absolute;
+  top: 3%;
+  right: 10%;
+  color: #41aabf;
+  font-style: italic;
+  display: none;
+}
+#menuAccountInfo:hover{
+  color: #fcb040;
+  font-style: italic;
+}
+#logo1{
+  height: 150px;
+  position: absolute;
+  z-index: 9;
+  top: 5px;
+  left: 35px;
+}
+#social{
+  position: absolute;
+  right: 1%;
+  top: 8%;
+}
+.topbar{
+ background-color: white;
+ height: 160px;
+ box-shadow:0 6px 4px -4px #888888;
+ margin-bottom: 20px;
+}
+.menu
+{
+  position: fixed;
+  left: 20%;
+  top: 80px;
+  background-color: white;
+  z-index: 14;
+}
+#navigationbar
+{
+  margin: 0px;
+}
+#logo2{
+  height: 50px;
+  z-index: 17;
+  position: fixed;
+  left: 15px;
+  top: 10px;
+}
+.topbarfixed{
+  background-color: white;
+  position: fixed;
+  height: 80px;
+  width: 100%;
+  box-shadow:0 6px 4px -4px #888888;
+  margin-bottom: 20px;
+  z-index: 10;
+  display: none;
+}
+
+
+
+
+
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+
+.navbar-default .navbar-nav > li > a{
+  font-size: 18px;
+}
+
+.navbar-default {
+  border: none;
+}
+.container-fluid{
+  padding: 0px;
+  background-color: white;
+}
+.navbar-default {
+  box-shadow: none;
+}
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.active>a {
+  background-image: none;
+
+}
+.navbar-nav>li>a {
+  padding: 30px 15px;
+}
+
+/* CSS for navbar on hover */
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: white;
+  background-color: #3e3e3e;
+
+}
+
+.navbar-default{
+  background-image: none;
+  background-color: #48addb;
+}
+
+.navbar-abc{
+  background-image: none;
+  background-color: #ffffff;
+}
+
+/* CSS for navbar on click */
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:hover,
+.navbar-default .navbar-nav>.open>a:focus {
+  color: white;
+  background-color: yellow;
+  border: none;
+  box-shadow: none;
+}
+
+.navbar-default .navbar-nav>.active>a, 
+.navbar-default .navbar-nav>.active>a:hover,
+.navbar-default .navbar-nav>.active>a:focus
+{
+  background-image: none;
+  color: white;
+  background-color: #ca4427;
+}
+
+.dropdown-menu{
+  background-color: #e9f7fc;
+}
+
+.content
+{
+  margin: 0% 1%;
+}
+.pub_body
+{
+  margin-top: 10%;
+}
+.pub_nav
+{
+  display: block;
+  top: 0%;
+  height: 100px;
+}
+
+.footer
+{
+  margin-top: 100px;
+}
+
+.pub_title{
+  margin-bottom: 5%;
+}
+.mytextbox{
+  width: 100%;
+  height: 30px;
+}
+.myselectbox{
+  height: 30px;
+  width: 100%;
+}
+#div_ShowTypeOfRealty{
+  height: 30px;
+}
+.mytextarea
+{
+  width: 100%;
+  text-align: left;
+}
+.mylabel{
+  color: #a9a9a9;
+  font-weight: normal;
+  font-style: italic;
+}
+.titlediv{
+  background-color: red;
+}
+.box
+{
+  padding: 0px;
+  background-color: white;
+  border-bottom: 5px solid #dedbcd;
+}
+.titlebox{
+  background-color: #ca4427;
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  color: white;
+}
+.detailbox
+{
+  padding: 10px;  
+  margin: 20px 0px;
+}
+.publishItem
+{
+  padding: 10px;
+}
+.regItem{
+  margin: 10px;
+  padding: 0px;
+}
+.navtabitem
+{
+  margin: 10px 0px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #b8b6ac;
+}
+.btn-success {
+  background-color: #41aabf;
+  color: white;
+  border-radius: 0px;
+  border: none;
+  border-bottom: 2px solid #3c98aa;
+  background-image: none;
+}
+.btn-lg
+{
+  font-size: 20px;
+}
+.btn-medium
+{
+  font-size: 17px;
+}
+.btn-success:hover, .btn-success:focus{
+  background-color: #fcb040;
+  color: white;
+  border:none;
+  border-radius: 0px;
+  border-bottom: 2px solid #db9733;
+  background-image: none;
+}
+
+.pub_contact
+{
+  margin: 20px 0px;
+}
+.titlesidebar{
+  background-color: #ca4427;
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  color: white;
+}
+
+.detailsidebar
+{
+  padding: 0px;
+}
+.list-group-item-success {
+  background-color: white;
+  border: none;
+}
+
+.list-group-item:first-child {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+
+.searchbox_title{
+  background-color: #ca4427;
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  color: white;
+}
+
+.searchbox_detail
+{
+  padding: 10px;
+}
+.searchbox_item{
+  margin: 5px 0px;
+}
+.search_item_bottom{
+  margin-top: 20px;
+}
+
+
+.nav-tabs {
+  background-color: #41aabf; /* background color nav-tabs */
+}
+.nav-tabs > li > a {
+  color: white; /* text color nav-tabs when click*/
+  font-size: 18px;
+}
+.nav-tabs > li > a:hover{
+  color: #e4cec3;
+  background-color: #41aabf;
+  border: none; /* text color nav-tabs when hover */
+}
+.nav-tabs > a, .nav-tabs > .active > a
+{
+  border: none;
+}
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+.tab-content {
+  border-bottom: 5px solid #dedbcd;
+  background-color: white;
+  padding: 10px;
+}
+
+.btnImg{
+  cursor: pointer;
+}
+
+.publishdate{
+  font-style: italic;
+  color: gray;
+}
+
+.detailHeader{
+  color: #878681;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+.detailTitle{
+  color: #41aabf;
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 3%;
+}
+
+.detailItem{
+  background-color: white;
+}
+
+.detailContent{
+  padding-top: 3%;
+}
+
+.detailStyle1{
+  font-weight: bold;  
+  padding: 0px;
+}
+
+.detailStyle2{
+  margin-top: 1%;
+  padding: 0px;
+  color: #ca4427;
+}
+
+.photo-galary{
+  margin-top: 3%;
+  padding: 0px;
+}
+
+.carousel-inner > .item > img {
+  margin: 0 auto;
+  display:table-cell; vertical-align:middle; text-align:center; width: 100%;max-height: 100%
+}
+
+.contactInfo{
+  margin-top: 3%;
+  padding-left: 20px;
+}
+
+.contactHeader{
+  font-weight: bold;
+  color: #fcb040;
+  font-size: 16px;
+  padding-bottom: 10px;
+}
+
+.contactTitle{
+  font-weight: bold;
+  color: ;
+  padding-right: 0px;
+}
+
+.descriptionHeader{
+  color: #ca4427;
+  font-weight: bold;
+  font-size: 17px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.description{
+  font-size: 16px;
+  color: #6d6d6d;
+  text-align: justify;
+}
+
+.thumbItem{
+  margin: 0px;
+  padding: 0px;
+}
+
+.thumbSlide{
+  padding: 0px; margin-top: 5px;
+  padding: 0px;
+}
+
+.headImage{
+  height: 100px;
+  width: 130%;
+}
+
+.besideImage{
+  padding-left: 30px;
+}
+
+.footer{
+  height: 220px;
+  background-color: #3e3e3e;
+  border-top: 5px solid white;
+}
+
+.footerDetail{
+  color: white;
+  padding-left: 30%;
+  margin-top: 100px;
+}
