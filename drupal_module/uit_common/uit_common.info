@@ -1,0 +1,5 @@
+name = Các function chung
+description = Các function chung
+core = 7.x
+package = UIT
+stylesheets[all][]=css/uit_common.css

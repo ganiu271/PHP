@@ -1,0 +1,46 @@
+<?php
+
+function qlmonhoc_help($path, $args) {
+  switch($path) {
+    case 'admin/help#qlmonhoc':
+      return t('Trợ giúp');
+      break;
+  }
+}
+
+function qlmonhoc_menu() {
+    $items = array();
+    $items['admin/qlmonhoc'] = array(
+        'title' => 'Quản lý môn học',
+        'description' => 'Quản lý môn hoc',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('qlmonhoc_form', 2, 3, 4),
+        //'access callback' => TRUE,
+        'file' => 'qlmonhoc.inc',
+        'access arguments' => array('Quản lý môn học'),
+        'type' => MENU_CALLBACK
+    );
+    $items['admin/qlmonhoc/import'] = array(
+        'title' => 'Import files',
+        'description' => 'Import files',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('qlmonhoc_import', 3),
+        //'access callback' => TRUE,
+        'file' => 'qlmonhoc_import.inc',
+        'access arguments' => array('Quản lý môn học'),
+        'type' => MENU_CALLBACK
+    );
+
+    return $items;
+}
+
+function qlmonhoc_permission() {
+    return array(
+        'Quản lý môn học' => array(
+        'title' => t('Quản lý môn học'),
+        ),
+        'Xem môn học' => array(
+        'title' => t('Xem môn học'),
+        ),
+    );
+}

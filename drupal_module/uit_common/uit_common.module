@@ -1,0 +1,558 @@
+<?php
+
+function uit_common_help($path, $args) {
+	switch($path) {
+		case 'admin/help#uit_common':
+		  return t('Module này chứa các hàm chung');
+		  break;
+	}
+}
+
+function uit_common_menu() {
+    $items = array();
+    $items['admin/system/settings'] = array(
+        'title' => 'Các thiết lập toàn cục',
+        'description' => 'Các thiết lập toàn cục',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('system_global_settings', 1),
+        'access callback' => TRUE,
+        'file' => 'settings.inc',
+        'access arguments' => array('administrater users'),
+        'type' => MENU_CALLBACK
+    );
+    /*
+    $items['admin/import'] = array(
+        'title' => 'Import file Excel',
+        'description' => 'Import file Excel theo mẫu',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('uit_import_form', 2),
+        'access callback' => TRUE,
+        'file' => 'import.inc',
+        'access arguments' => array('administrater users'),
+        'type' => MENU_CALLBACK
+    );
+    $items['admin/importform'] = array(
+        'title' => 'Import Form Settings',
+        'description' => 'Import Form Settings',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('uit_import_settings', 2, 3),
+        'access callback' => TRUE,
+        'file' => 'import_settings.inc',
+        'access arguments' => array('administrater users'),
+        'type' => MENU_CALLBACK
+    );
+    $items['admin/importformfields'] = array(
+        'title' => 'Import Form Fields Settings',
+        'description' => 'Import Form Fields Settings',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('uit_import_settings_fields', 2),
+        'access callback' => TRUE,
+        'file' => 'import_settings.inc',
+        'access arguments' => array('administrater users'),
+        'type' => MENU_CALLBACK
+    );
+    */
+
+    return $items;
+}
+
+function KhongDau($str) 
+ { 
+	  $coDau=array("à","á","ạ","ả","ã","â","ầ","ấ","ậ","ẩ","ẫ","ă", 
+	  "ằ","ắ","ặ","ẳ","ẵ", 
+	  "è","é","ẹ","ẻ","ẽ","ê","ề"     ,"ế","ệ","ể","ễ", 
+	  "ì","í","ị","ỉ","ĩ", 
+	  "ò","ó","ọ","ỏ","õ","ô","ồ","ố","ộ","ổ","ỗ","ơ" 
+	  ,"ờ","ớ","ợ","ở","ỡ", 
+	  "ù","ú","ụ","ủ","ũ","ư","ừ","ứ","ự","ử","ữ", 
+	  "ỳ","ý","ỵ","ỷ","ỹ", 
+	  "đ", 
+	  "À","Á","Ạ","Ả","Ã","Â","Ầ","Ấ","Ậ","Ẩ","Ẫ","Ă" 
+	  ,"Ằ","Ắ","Ặ","Ẳ","Ẵ", 
+	  "È","É","Ẹ","Ẻ","Ẽ","Ê","Ề","Ế","Ệ","Ể","Ễ", 
+	  "Ì","Í","Ị","Ỉ","Ĩ", 
+	  "Ò","Ó","Ọ","Ỏ","Õ","Ô","Ồ","Ố","Ộ","Ổ","Ỗ","Ơ" 
+	  ,"Ờ","Ớ","Ợ","Ở","Ỡ", 
+	  "Ù","Ú","Ụ","Ủ","Ũ","Ư","Ừ","Ứ","Ự","Ử","Ữ", 
+	  "Ỳ","Ý","Ỵ","Ỷ","Ỹ", 
+	  "Đ","ê","ù","à"); 
+
+	  $khongDau=array("a","a","a","a","a","a","a","a","a","a","a" 
+	  ,"a","a","a","a","a","a", 
+	  "e","e","e","e","e","e","e","e","e","e","e", 
+	  "i","i","i","i","i", 
+	  "o","o","o","o","o","o","o","o","o","o","o","o" 
+	  ,"o","o","o","o","o", 
+	  "u","u","u","u","u","u","u","u","u","u","u", 
+	  "y","y","y","y","y", 
+	  "d", 
+	  "A","A","A","A","A","A","A","A","A","A","A","A" 
+	  ,"A","A","A","A","A", 
+	  "E","E","E","E","E","E","E","E","E","E","E", 
+	  "I","I","I","I","I", 
+	  "O","O","O","O","O","O","O","O","O","O","O","O" 
+	  ,"O","O","O","O","O", 
+	  "U","U","U","U","U","U","U","U","U","U","U", 
+	  "Y","Y","Y","Y","Y", 
+	  "D","e","u","a"); 
+	  return str_replace($coDau,$khongDau,$str); 
+ }
+
+function ghilogs($noidung,$ghichu = NULL,$phanloai = NULL) {
+    global $user;
+    if(!$phanloai) $phanloai = 'qldiem';
+    try {
+        db_insert('uit_logs')->fields(array(
+            'phanloai' => $phanloai,
+            'username' => $user->name,
+            'thoigian' => date('Y-m-d h:i:s'),
+            'noidung' => $noidung,
+            'ghichu' => $ghichu
+        ))->execute();
+    } catch (Exception $exc) {
+        return FALSE;
+    }
+    return TRUE;
+}
+
+function ktra_sinhvien_tontai( $mssv) {
+  $query = db_select('uit_thongtinsv', 'sv')->fields('sv', array('id'))->condition('masv', $mssv);
+  return count($query->execute()->fetchAll());
+}
+
+function ConvertToDate($strDate) {
+    $pattern = '/\.|\/|-/i';
+    $arr = preg_split($pattern, $strDate, -1, PREG_SPLIT_NO_EMPTY);
+    if(strlen($arr[2]) == 2) $arr[2] = '20'.$arr[2];
+    if(checkdate($arr[1], $arr[0], $arr[2])) return $arr[2].'-'.$arr[1].'-'.$arr[0];
+    if(checkdate($arr[0], $arr[1], $arr[2])) return $arr[2].'-'.$arr[0].'-'.$arr[1];
+    if(checkdate($arr[1], $arr[2], $arr[0])) return $arr[0].'-'.$arr[1].'-'.$arr[2];
+    return $strDate;
+}
+
+function MROUND($number,$multiple) {
+    if ((is_numeric($number)) && (is_numeric($multiple))) {
+        if ($multiple == 0) {
+            return 0;
+        }
+        if ((SIGNTest($number)) == (SIGNTest($multiple))) {
+            $multiplier = 1 / $multiple;
+            return round($number * $multiplier) / $multiplier;
+        }
+        return 0;
+    }
+    return 0;
+} 
+function SIGNTest($number) {
+    if (is_bool($number))
+        return (int) $number;
+    if (is_numeric($number)) {
+        if ($number == 0.0) {
+            return 0;
+        }
+        return $number / abs($number);
+    }
+    return 0;
+}
+
+function DanhSachSV($hedt=NULL, $khoa=NULL, $khoahoc=NULL) {
+    $secid = 'gfdg6df8g6d8g68df78gsdfgdlakl';
+    require_once 'sites/all/libraries/nusoap/nusoap.php';
+    $proxyhost 		= '';
+    $proxyport 		= '';
+    $proxyusername 	= '';
+    $proxypassword 	= '';
+    $client = new nusoap_client("http://192.168.20.69/ew67fhgtu66a54jjk/uit.php?wsdl", true, $proxyhost, $proxyport, $proxyusername, $proxypassword);
+    $err = $client->getError();
+    if($err) {
+      echo '<h2>Có lỗi xãy ra.</h2>';
+      exit();
+    }
+    $params = array(        
+        'secid' => $secid,
+        'hedt' => $hedt,
+        'khoa' => $khoa,
+        'khoahoc' => $khoahoc
+    );
+    $result = $client->call('getStuList', $params);
+    if ($client->fault) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+    } else {
+      $err = $client->getError();
+      if ($err) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+      }
+    }
+    $xmldata = str_replace('&', '&amp;', $result);
+
+    return simplexml_load_string($xmldata);
+}
+
+function LayThongTinSV($masv) {
+    $secid = 'ufig87g79dfgdf8gd76g989d';
+    require_once 'sites/all/libraries/nusoap/nusoap.php';
+    $proxyhost 		= '';
+    $proxyport 		= '';
+    $proxyusername 	= '';
+    $proxypassword 	= '';
+    $client = new nusoap_client("http://192.168.20.69/ew67fhgtu66a54jjk/uit.php?wsdl", true, $proxyhost, $proxyport, $proxyusername, $proxypassword);
+    $err = $client->getError();
+    if($err) {
+      echo '<h2>Có lỗi xãy ra.</h2>';
+      exit();
+    }
+    $params = array(
+        'sid' => $masv, 
+        'secid' => $secid
+    );
+    $result = $client->call('getStuInfo', $params);
+    if ($client->fault) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+    } else {
+      $err = $client->getError();
+      if ($err) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+      }
+    }
+    $xmldata = str_replace('&', '&amp;', $result);
+ 
+    return simplexml_load_string($xmldata);
+}
+
+function LayThongTinHP($masv) {
+    $secid = 'ut8ert9dkfd545fd87ffdg1d24';
+    require_once 'sites/all/libraries/nusoap/nusoap.php';
+    $proxyhost 		= '';
+    $proxyport 		= '';
+    $proxyusername 	= '';
+    $proxypassword 	= '';
+    $client = new nusoap_client("http://192.168.20.69/ew67fhgtu66a54jjk/uit.php?wsdl", true, $proxyhost, $proxyport, $proxyusername, $proxypassword);
+    $err = $client->getError();
+    if($err) {
+      echo '<h2>Có lỗi xãy ra.</h2>';
+      exit();
+    }
+    $params = array(
+        'sid' => $masv, 
+        'secid' => $secid
+    );
+    $result = $client->call('getTuition', $params);
+    if ($client->fault) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+    } else {
+      $err = $client->getError();
+      if ($err) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+      }
+    }
+    $xmldata = str_replace('&', '&amp;', $result);
+    
+    return simplexml_load_string($xmldata);
+}
+
+function LayThongTinBH($masv) {
+    $secid = 'gdgggdg66gdgd7gdfg7g7dfg';
+    require_once 'sites/all/libraries/nusoap/nusoap.php';
+    $proxyhost 		= '';
+    $proxyport 		= '';
+    $proxyusername 	= '';
+    $proxypassword 	= '';
+    $client = new nusoap_client("http://192.168.20.69/ew67fhgtu66a54jjk/uit.php?wsdl", true, $proxyhost, $proxyport, $proxyusername, $proxypassword);
+    $err = $client->getError();
+    if($err) {
+      echo '<h2>Có lỗi xãy ra.</h2>';
+      exit();
+    }
+    $params = array(
+        'sid' => $masv, 
+        'secid' => $secid
+    );
+    $result = $client->call('getInsurance', $params);
+    if ($client->fault) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+    } else {
+      $err = $client->getError();
+      if ($err) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+      }
+    }
+    $xmldata = str_replace('&', '&amp;', $result);
+    
+    return simplexml_load_string($xmldata);
+}
+
+function LayKQHT($masv) {
+    $secid = '545jhhh5hh50809fdsald80';
+    require_once 'sites/all/libraries/nusoap/nusoap.php';
+    $proxyhost 		= '';
+    $proxyport 		= '';
+    $proxyusername 	= '';
+    $proxypassword 	= '';
+    $client = new nusoap_client("http://192.168.20.69/ew67fhgtu66a54jjk/uit.php?wsdl", true, $proxyhost, $proxyport, $proxyusername, $proxypassword);
+    //$client = new nusoap_client("http://192.168.20.69/servicetest123/uit.php?wsdl", true, $proxyhost, $proxyport, $proxyusername, $proxypassword);
+    $err = $client->getError();
+    if($err) {
+      echo '<h2>Có lỗi xãy ra.</h2>';
+      exit();
+    }
+    $params = array(
+        'sid' => $masv, 
+        'secid' => $secid
+    );
+    $result = $client->call('getMark', $params);
+    if ($client->fault) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+    } else {
+      $err = $client->getError();
+      if ($err) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+      }
+    }
+    $xmldata = str_replace('&', '&amp;', $result);
+    
+    return simplexml_load_string($xmldata);
+}
+
+function getDKHP($masv, $hocky, $namhoc) {
+    $secid = 'dsfdsdfg876g8f6786h8fgdfgdf';
+    //require_once APPPATH.'/third_party/nusoap/nusoap.php';
+    require_once 'sites/all/libraries/nusoap/nusoap.php';
+    $proxyhost 		= '';
+    $proxyport 		= '';
+    $proxyusername 	= '';
+    $proxypassword 	= '';
+    $client = new nusoap_client("http://192.168.20.69/ew67fhgtu66a54jjk/survey.php?wsdl", true, $proxyhost, $proxyport, $proxyusername, $proxypassword);
+    $err = $client->getError();
+    if($err) {
+      echo '<h2>Có lỗi xãy ra.</h2>';
+      exit();
+    }
+    $params = array(
+        'masv' => $masv, 
+        'hocky' => $hocky,
+        'namhoc' => $namhoc,
+        'secid' => $secid
+    );
+    $result = $client->call('survey_getDKHP', $params);
+    if ($client->fault) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+    } else {
+      $err = $client->getError();
+      if ($err) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+      }
+    }
+    $xmldata = str_replace('&', '&amp;', $result);
+
+    return simplexml_load_string($xmldata);
+}
+
+function getMonHoc($hocky, $namhoc) {
+    $secid = '6uy756etgdfkio9977hjgjh434';
+    //require_once APPPATH.'/third_party/nusoap/nusoap.php';
+    require_once 'sites/all/libraries/nusoap/nusoap.php';
+    $proxyhost 		= '';
+    $proxyport 		= '';
+    $proxyusername 	= '';
+    $proxypassword 	= '';
+    $client = new nusoap_client("http://192.168.20.69/ew67fhgtu66a54jjk/survey.php?wsdl", true, $proxyhost, $proxyport, $proxyusername, $proxypassword);
+    $err = $client->getError();
+    if($err) {
+      echo '<h2>Có lỗi xãy ra.</h2>';
+      exit();
+    }
+    $params = array(
+        'hocky' => $hocky,
+        'namhoc' => $namhoc,
+        'secid' => $secid
+    );
+    $result = $client->call('survey_getMonHoc', $params);
+    if ($client->fault) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+    } else {
+      $err = $client->getError();
+      if ($err) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+      }
+    }
+    $xmldata = str_replace('&', '&amp;', $result);
+
+    return simplexml_load_string($xmldata);
+}
+
+function getDSSV($hedt, $khoa, $khoahoc) {
+    $secid = 'fdgfdg8fd6g8868as6d8as876';
+    //require_once APPPATH.'/third_party/nusoap/nusoap.php';
+    require_once 'sites/all/libraries/nusoap/nusoap.php';
+    $proxyhost 		= '';
+    $proxyport 		= '';
+    $proxyusername 	= '';
+    $proxypassword 	= '';
+    $client = new nusoap_client("http://192.168.20.69/ew67fhgtu66a54jjk/survey.php?wsdl", true, $proxyhost, $proxyport, $proxyusername, $proxypassword);
+    $err = $client->getError();
+    if($err) {
+      echo '<h2>Có lỗi xãy ra.</h2>';
+      exit();
+    }
+    $params = array(        
+        'secid' => $secid,
+        'hedt' => $hedt,
+        'khoa' => $khoa,
+        'khoahoc' => $khoahoc
+    );
+    $result = $client->call('survey_getDSSV', $params);
+    if ($client->fault) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+    } else {
+      $err = $client->getError();
+      if ($err) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+      }
+    }
+    $xmldata = str_replace('&', '&amp;', $result);
+
+    return simplexml_load_string($xmldata);
+}
+
+function getSurvey0($masv, $surveyid) {
+    $secid = 'vxcgdf7gdfg574g6dfgdf';
+    require_once 'sites/all/libraries/nusoap/nusoap.php';
+    $proxyhost 		= '';
+    $proxyport 		= '';
+    $proxyusername 	= '';
+    $proxypassword 	= '';
+    $client = new nusoap_client("http://survey.uit.edu.vn/t6uyrefdsfsdgfdae/survey.php?wsdl", true, $proxyhost, $proxyport, $proxyusername, $proxypassword);
+    $err = $client->getError();
+    if($err) {
+      echo '<h2>Có lỗi xãy ra.</h2>';
+      exit();
+    }
+    $params = array(        
+        'masv' => $masv,
+        'surveyid' => $surveyid,
+        'secid' => $secid
+    );
+    $result = $client->call('getSurvey', $params);
+    if ($client->fault) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+    } else {
+      $err = $client->getError();
+      if ($err) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+      }
+    }
+    $xmldata = str_replace('&', '&amp;', $result);
+
+    return simplexml_load_string($xmldata);
+}
+
+function getSurvey($masv, $surveyid) {
+    $secid = 'vxcgdf7gdfg574g6dfgdf';
+    require_once 'sites/all/libraries/nusoap/nusoap.php';
+    $proxyhost 		= '';
+    $proxyport 		= '';
+    $proxyusername 	= '';
+    $proxypassword 	= '';
+    $client = new nusoap_client("http://survey.uit.edu.vn/t6uyrefdsfsdgfdae/survey.php?wsdl", true, $proxyhost, $proxyport, $proxyusername, $proxypassword);
+    $err = $client->getError();
+    if($err) {
+      echo '<h2>Có lỗi xãy ra.</h2>';
+      exit();
+    }
+    $params = array(        
+        'masv' => $masv,
+        'surveyid' => $surveyid,
+        'secid' => $secid
+    );
+    $result = $client->call('getSurvey2', $params);
+    if ($client->fault) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+    } else {
+      $err = $client->getError();
+      if ($err) {
+        echo '<h2>Có lỗi xãy ra.</h2>';
+      }
+    }
+    $xmldata = str_replace('&', '&amp;', $result);
+
+    return simplexml_load_string($xmldata);
+}
+
+function TinhHocPhiDKHP($masv, $hocky=NULL, $namhoc=NULL) {
+    if($hocky < 1 || $hocky >3 || $namhoc < 2012) return false;
+    if($hocky == 1 && $namhoc == 2012) return false; //Học kỳ này không có dữ liệu ĐKHP
+    
+    $q = db_select('uit_dkhp','dk')->distinct();
+    $q->join('uit_dongia','dg','dk.mamh=dg.mamh and dg.hocky='.$hocky.' and dg.namhoc='.$namhoc);
+    //$q->condition('dk.thuchanh',0);
+    $q->condition('dk.masv',$masv);
+    $q->condition('dk.hocky',$hocky);
+    $q->condition('dk.namhoc',$namhoc);
+    $q->fields('dk', array('mamh'));
+    $q->fields('dg',(array('sotc','dongia')));
+    $q->orderBy('dk.mamh','ASC');
+    $dkhp = $q->execute()->fetchAll();
+    
+    $phaidong = 0;
+    $sotc = 0;
+    foreach($dkhp as $mon) {
+      $sotc += $mon->sotc;
+      $phaidong += $mon->sotc * $mon->dongia;
+    }
+    return array('sotc' => $sotc, 'phaidong' => $phaidong);
+}
+
+
+/**
+ *
+ * @return array 
+ */
+function uit_common_option_namhoc() {
+  $options = array();
+  $start = 2006;
+  for ($i = $start; $i <= date('Y'); $i++) {
+    $options[$i] = $i . ' - ' . ($i + 1);
+  }
+  return $options;
+}
+
+/**
+ *
+ * @return array 
+ */
+function uit_common_option_hocky() {
+  return array('1' => t('Học kỳ 1'), '2' => t('Học kỳ 2'), '3' => t('Học kỳ hè'));
+}
+
+
+/**
+ *
+ * @return array object 
+ */
+function uit_common_danhsach_phonghoc($option = FALSE, $soluong = 0) {
+  $cid = 'DS_PHONGHOC' . $option . $soluong;
+  cache_clear_all($cid, 'cache');
+  $cache = cache_get($cid);
+  if ($cache) {
+    $ds_phonghoc = $cache->data;
+  }
+  else {
+     $query = db_select('uit_phonghoc');
+     $query->condition('loaiphong', 'LT')
+          ->orderBy('succhua', 'DESC');
+     if ($soluong) {
+       $query->condition('succhua', $soluong, '>=');
+     }
+     if ($option) {
+       $query->fields('uit_phonghoc', array('tenphong', 'tenphong'));
+       $ds_phonghoc = $query->execute()->fetchAllKeyed();
+     }
+     else {
+       $query->fields('uit_phonghoc');
+       $ds_phonghoc = $query->execute()->fetchAll();
+     }
+     cache_set($cid, $ds_phonghoc);
+  }
+  return $ds_phonghoc;
+}
+

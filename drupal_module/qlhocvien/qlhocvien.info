@@ -1,0 +1,6 @@
+name = UIT - Quản lý học viên sau đại học
+description = Quản lý thông tin học viên
+core = 7.x
+package = UIT
+files[] = qlhocvien.inc
+stylesheets[all][] = css/qlhocvien.css

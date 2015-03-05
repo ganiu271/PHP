@@ -1,0 +1,6 @@
+name = UIT - Quản Lý Môn Học
+description = Quản lý môn học
+core = 7.x
+package = UIT
+files[] = qlmonhoc.inc
+stylesheets[all][] = css/qlmonhoc.css

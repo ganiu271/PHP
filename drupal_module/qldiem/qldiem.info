@@ -1,0 +1,8 @@
+name = UIT - Quản Lý Điểm
+description = Quản lý điểm
+core = 7.x
+package = UIT
+files[] = qldiem.inc
+files[] = qldiem_import.inc
+files[] = qldiem_xemdiem.inc
+stylesheets[all][]=css/qldiem.css

@@ -1,0 +1,6 @@
+name = UIT - Quản Lý CTĐT
+description = Quản lý Chương Trình Đào Tạo
+core = 7.x
+package = UIT
+files[] = qlctdt.inc
+stylesheets[all][] = css/qlctdt.css
