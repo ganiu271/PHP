@@ -12,8 +12,15 @@
 */
 
 Route::get('/', 'HomeController@index');
+Route::get('home', 'HomeController@index');
 
-Route::get('list','HomeController@listUser');
+Route::get('user/profile','HomeController@profile');
+Route::get('user/list','UserController@index');
+
+Route::post('user/create','UserController@create');
+Route::get('user/edit','UserController@edit');
+Route::get('user/delete/{id}','UserController@destroy');
+Route::get('user/table','UserController@getData');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

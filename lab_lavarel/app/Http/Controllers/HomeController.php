@@ -15,10 +15,12 @@ class HomeController extends Controller {
 		return view('home');
 	}
 
-    public function listUser()
-    {
-        var_dump('asda');
-
+    public function profile(){
+        $profile=\Auth::user();
+        return view('profile')->with([
+            'id' => $profile->id,
+            'name'=>$profile->name,
+            'email' => $profile->email,
+        ]);
     }
-
 }

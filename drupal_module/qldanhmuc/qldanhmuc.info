@@ -1,6 +1,0 @@
-name = UIT - Quản Lý Danh Mục
-description = Quản lý danh mục
-core = 7.x
-package = UIT
-files[] = qldanhmuc.inc
-stylesheets[all][] = css/qldanhmuc.css

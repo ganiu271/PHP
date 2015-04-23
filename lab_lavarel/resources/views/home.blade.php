@@ -14,6 +14,5 @@
 			</div>
 		</div>
 	</div>
-{{--    {{ HTML::script('assets/js/jquery.dataTables.min.js') }}--}}
 </div>
 @endsection
