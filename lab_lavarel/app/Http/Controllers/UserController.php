@@ -66,44 +66,18 @@ class UserController extends Controller {
     public function getData()
     {
         $users = User::all();
-        return Datatables::of($users)
-            ->setRowId('id') // via column name if exists else just return the value
-            ->setRowId(function($user) {
-                return $user->id;
-            }) // via closure
-            ->setRowId('{{ $id }}') // via blade parsing
-
-            ->setRowClass('id') // via column name if exists else just return the value
-            ->setRowClass(function($user) {
-                return $user->id;
-            }) // via closure
-            ->setRowClass('{{ $id }}') // via blade parsing
-
-            ->setRowData([
-                'string' => 'data',
-                'closure' => function($user) {
-                    return $user->name;
-                },
-                'blade' => '{{ $name }}'
-            ])
-            ->addRowData('a_string', 'value')
-            ->addRowData('a_closure', function($user) {
-                return $user->name;
-            })
-            ->addRowData('a_blade', '{{ $name }}')
-            ->setRowAttr([
-                'color' => 'data',
-                'closure' => function($user) {
-                    return $user->name;
-                },
-                'blade' => '{{ $name }}'
-            ])
-            ->addRowAttr('a_string', 'value')
-            ->addRowAttr('a_closure', function($user) {
-                return $user->name;
-            })
-            ->addRowAttr('a_blade', '{{ $name }}')
-            ->make(true);
+        $result=array();
+        foreach ($users as $user) {
+            $data=array(
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role,
+                'created_at' => $user->created_at
+            );
+            array_push($result, $data);
+        }
+        echo json_encode($result);
     }
 
 }
