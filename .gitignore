@@ -4,3 +4,6 @@
 */cache/*
 */cache/!index.html
 */cache/!.htaccess
+lab_lavarel/.idea/vcs.xml
+lab_lavarel/.idea/workspace.xml
+*.xml

@@ -24,8 +24,16 @@ class UserController extends Controller {
 	public function create()
 	{
         $data['result'] = 'fail';
+        $input = \Request::all();
         if(\Auth::user()->role==999){
-
+            $user = new User();
+            $user->email = isset($input['email'])?$input['email']:'';
+            $user->name = isset($input['name'])?$input['name']:'';
+            $user->password = isset($input['password'])?bcrypt($input['password']):'';
+            $user->role = isset($input['role']) ? $input['role'] : 0;
+            if($user->save()){
+                $data['result'] = 'ok';
+            }
         }
         echo json_encode($data);
 	}
@@ -40,6 +48,7 @@ class UserController extends Controller {
                 $user->email = isset($input['email'])?$input['email']:$user->email;
                 $user->name = isset($input['name'])?$input['name']:$user->name;
                 $user->password = isset($input['password'])?bcrypt($input['password']):$user->password;
+                $user->role = isset($input['role']) ? $input['role'] : $user->role;
                 if($user->save()){
                     $data['result'] = 'ok';
                 }
@@ -63,21 +72,22 @@ class UserController extends Controller {
         echo json_encode($data);
 	}
 
-    public function getData()
-    {
+    public function getData(){
         $users = User::all();
         $result=array();
-        foreach ($users as $user) {
-            $data=array(
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'role' => $user->role,
-                'created_at' => $user->created_at
-            );
-            array_push($result, $data);
+        if(\Auth::user()->role==999){
+            foreach ($users as $user) {
+                $data=array(
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $user->role,
+                    'created_at' => date($user->created_at)
+                );
+                array_push($result, $data);
+            }
+            echo json_encode($result);
         }
-        echo json_encode($result);
     }
 
 }

@@ -18,9 +18,9 @@ Route::get('user/profile','HomeController@profile');
 Route::get('user/list','UserController@index');
 
 Route::post('user/create','UserController@create');
-Route::get('user/edit','UserController@edit');
+Route::post('user/edit','UserController@edit');
 Route::get('user/delete/{id}','UserController@destroy');
-Route::get('user/table','UserController@getData');
+Route::post('user/table','UserController@getData');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
